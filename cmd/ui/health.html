@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Health · CRUD-GO</title>
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: #0f1117;
+      color: #e6e8ee;
+    }
+    .card {
+      width: min(480px, 90vw);
+      padding: 36px;
+      border-radius: 16px;
+      background: #181b25;
+      border: 1px solid #262a38;
+      box-shadow: 0 20px 60px rgba(0,0,0,.4);
+    }
+    h1 { margin: 0 0 24px; font-size: 24px; }
+    .row { display: flex; gap: 10px; margin-bottom: 18px; }
+    input {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #2c3142;
+      background: #11141d;
+      color: #e6e8ee;
+      font-size: 14px;
+    }
+    button {
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 10px;
+      background: #2f6bff;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { background: #2257d6; }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #5b6172; }
+    .dot.ok { background: #2ecc71; box-shadow: 0 0 10px #2ecc71; }
+    .dot.bad { background: #ff5b5b; box-shadow: 0 0 10px #ff5b5b; }
+    pre {
+      margin: 0;
+      padding: 16px;
+      border-radius: 10px;
+      background: #11141d;
+      border: 1px solid #262a38;
+      color: #9fe8c1;
+      font-size: 13px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    a.back { display: inline-block; margin-top: 18px; color: #8b90a3; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>API Health Check</h1>
+
+    <div class="row">
+      <input id="name" placeholder="optional ?name= value" />
+      <button id="check">Check</button>
+    </div>
+
+    <div class="status">
+      <span id="dot" class="dot"></span>
+      <span id="label">Not checked yet</span>
+    </div>
+
+    <pre id="output">Click "Check" to call /api/v1/health</pre>
+
+    <a class="back" href="/ui/index.html">← Back</a>
+  </main>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    async function check() {
+      const name = $("name").value.trim();
+      const url = "/api/v1/health" + (name ? `?name=${encodeURIComponent(name)}` : "");
+
+      $("label").textContent = "Checking…";
+      $("dot").className = "dot";
+
+      try {
+        const res = await fetch(url);
+        const text = await res.text();
+
+        if (res.ok) {
+          $("dot").className = "dot ok";
+          $("label").textContent = `Healthy (${res.status})`;
+        } else {
+          $("dot").className = "dot bad";
+          $("label").textContent = `Unhealthy (${res.status})`;
+        }
+        $("output").textContent = text;
+      } catch (err) {
+        $("dot").className = "dot bad";
+        $("label").textContent = "Unreachable";
+        $("output").textContent = "Error: " + err.message + "\n\nIs the server running on :8080?";
+      }
+    }
+
+    $("check").addEventListener("click", check);
+    $("name").addEventListener("keydown", (e) => { if (e.key === "Enter") check(); });
+  </script>
+</body>
+</html>

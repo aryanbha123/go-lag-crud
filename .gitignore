@@ -1,0 +1,21 @@
+# Secrets / local env
+.env
+.env.local
+*.env
+
+# Compiled binaries / build output
+/bin/
+/tmp/
+crud-go
+*.exe
+*.out
+
+# Go test / coverage
+*.test
+coverage.out
+
+# OS / editor junk
+.DS_Store
+*.swp
+.idea/
+.vscode/

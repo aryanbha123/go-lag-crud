@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRUD-GO</title>
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: #0f1117;
+      color: #e6e8ee;
+    }
+    .card {
+      width: min(440px, 90vw);
+      padding: 40px;
+      border-radius: 16px;
+      background: #181b25;
+      border: 1px solid #262a38;
+      box-shadow: 0 20px 60px rgba(0,0,0,.4);
+    }
+    h1 { margin: 0 0 4px; font-size: 28px; }
+    p.sub { margin: 0 0 28px; color: #8b90a3; font-size: 14px; }
+    a.btn {
+      display: block;
+      text-align: center;
+      padding: 14px;
+      margin-top: 12px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      background: #2f6bff;
+      color: #fff;
+      transition: transform .08s ease, background .15s ease;
+    }
+    a.btn:hover { background: #2257d6; transform: translateY(-1px); }
+    a.btn.secondary { background: #232735; color: #c8ccda; }
+    a.btn.secondary:hover { background: #2c3142; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>🚀 CRUD-GO</h1>
+    <p class="sub">Cortexone internal assessment</p>
+    <a class="btn" href="/ui/health.html">Check API Health</a>
+    <a class="btn secondary" href="/api/v1/health" target="_blank">Open raw /health endpoint</a>
+  </main>
+</body>
+</html>
